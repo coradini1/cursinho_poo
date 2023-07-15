@@ -29,10 +29,11 @@ public class MaterialDao {
         return jdbcTemplate.queryForObject(sql, this::mapMaterial, materialId);
     }
 
-    public void updateMaterial(Material material) {
+    public void updateMaterial(Long id, Material material) {
         String sql = "UPDATE Materiais SET nome = ?, descricao = ?, caminho_arquivo = ?, curso_id = ? WHERE id = ?";
-        jdbcTemplate.update(sql, material.getNome(), material.getDescricao(), material.getCaminhoArquivo(), material.getCursoId(), material.getId());
+        jdbcTemplate.update(sql, material.getNome(), material.getDescricao(), material.getCaminhoArquivo(), material.getCursoId(), id);
     }
+
 
     public void deleteMaterial(int materialId) {
         String sql = "DELETE FROM Materiais WHERE id = ?";
