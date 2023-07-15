@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <title>Menu</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Menu</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Início</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/listarmateriais"><strong>Listar Materiais</strong></a>
+            </li>
+            <li class="nav-item" th:if="${tipoUsuario != 'ALUNO'}">
+                <a class="nav-link" href="/registrar-curso"><strong>Registrar Curso</strong></a>
+            </li>
+
+            <li class="nav-item" th:if="${tipoUsuario != 'ALUNO'}">
+                <a class="nav-link" href="/registrar-material"><strong>Registrar Material</strong></a>
+            </li>
+
+        </ul>
+        <span class="navbar-text">
+  Logado como <strong th:text="${session.username}"></strong>
+</span>
+        <a href="/logout" class="btn btn-danger ml-3">Sair</a>
+    </div>
+</nav>
+<div class="container content-section">
+    <h1>Lista de cursos cadastrados</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="curso : ${cursos}">
+            <td th:text="${curso.nome}"></td>
+            <td th:text="${curso.descricao}"></td>
+            <td>
+                <a th:if="${tipoUsuario != 'ALUNO'}" th:href="@{'/editar-curso?id=' + ${curso.id}}" class="btn btn-primary">Editar</a>
+                <a href="#" th:href="@{/remover-curso/{id}(id=${curso.id})}" class="btn btn-danger">Remover</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
