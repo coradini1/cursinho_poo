@@ -36,7 +36,6 @@
             List<Material> materiais = cursoDao.getMateriaisByCursoId(curso.getId());
             model.addAttribute("materiais", materiais);
 
-            // Aqui você busca todos os materiais disponíveis
             List<Material> todosMateriais = materialDao.getMateriais();
             model.addAttribute("todosMateriais", todosMateriais);
 
@@ -51,12 +50,9 @@
 
             cursoDao.updateCurso(curso);
 
-            // Adicione uma verificação aqui se o materialSelecionado não for nulo
             if (materialSelecionado != null) {
-                // Desvincule todos os materiais do curso
                 cursoDao.desvincularMaterial(curso.getId());
 
-                // Vincule o material selecionado ao curso
                 cursoDao.vincularMaterial(curso.getId(), materialSelecionado);
             }
 

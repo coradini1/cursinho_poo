@@ -52,7 +52,7 @@ public class RegistrarCursoController {
         Integer userId = (Integer) request.getSession().getAttribute("userId");
         if (userId == null) {
             redirectAttributes.addFlashAttribute("erro", "Faça login para registrar um curso.");
-            return "redirect:/login";
+            return "redirect:/";
         }
 
         Curso cursoExistente = cursoDao.getCursoByNome(curso.getNome());

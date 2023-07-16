@@ -1,14 +1,73 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/style.css}" href="../css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <title>Cadastrar</title>
-</head>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
 
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            height: 30px;
+            padding: 5px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background-color: #1da1f2;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 50px;
+            padding: 12px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary.btn-back {
+            background-color: #fff;
+            color: #1da1f2;
+            margin-left: 10px;
+            border: 1px solid #1da1f2;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
 <body>
 <div class="container">
     <h1>Cadastrar Usuário</h1>
@@ -36,8 +95,6 @@
         <button type="submit" name="opcao" class="btn btn-primary" value="Cadastrar">Cadastrar Usuário</button>
         <a href="/" class="btn btn-back">Voltar</a>
 
-
-        <!-- Adicione este bloco -->
         <p th:text="${errorMessage}" th:if="${errorMessage != null}" class="error"></p>
     </form>
 </div>

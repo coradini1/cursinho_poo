@@ -43,19 +43,19 @@ public class RegistrarMaterialController {
             return "registrar/registrar-material";
         }
 
-        // Verificar se o arquivo PDF foi selecionado
+        // Verifica se o arquivo PDF foi selecionado
         if (arquivoPDF.isEmpty()) {
             redirectAttributes.addFlashAttribute("erro", "Selecione um arquivo PDF.");
             return "redirect:/registrar-material";
         }
 
-        // Gerar um nome único para o arquivo PDF
+        // Gera um nome único para o arquivo PDF
         String nomeArquivo = UUID.randomUUID().toString() + "_" + arquivoPDF.getOriginalFilename();
 
-        // Obter o caminho de armazenamento absoluto da pasta "uploads"
+        // Obtem o caminho de armazenamento absoluto da pasta "uploads"
         String caminhoUploads = servletContext.getRealPath("/uploads");
 
-        // Criar o diretório "uploads" se não existir
+        // Criar o diretório uploads se não existir
         File uploadsDir = new File(caminhoUploads);
         if (!uploadsDir.exists()) {
             uploadsDir.mkdirs();
@@ -65,13 +65,12 @@ public class RegistrarMaterialController {
         String caminhoArquivo = caminhoUploads + File.separator + nomeArquivo;
         arquivoPDF.transferTo(new File(caminhoArquivo));
 
-        // Configurar o caminho do arquivo PDF no objeto Material
+        // Configura o caminho do arquivo PDF no objeto Material
         material.setCaminhoArquivo(caminhoArquivo);
 
-        // Cadastrar o material
         materialDao.createMaterial(material);
 
         redirectAttributes.addFlashAttribute("mensagem", "Material registrado com sucesso.");
-        return "redirect:/listarcursos";
+        return "redirect:/listarmateriais";
     }
 }

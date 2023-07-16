@@ -12,18 +12,28 @@ import java.util.List;
 @Repository
 public class MaterialDao {
 
-    @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public MaterialDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public void createMaterial(Material material) {
         String sql = "INSERT INTO Materiais (nome, descricao, caminho_arquivo, curso_id) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql, material.getNome(), material.getDescricao(), material.getCaminhoArquivo(), material.getCursoId());
     }
 
+    public List<Material> getMateriaisByCursoId(int cursoId) {
+        String sql = "SELECT * FROM Materiais WHERE curso_id = ?";
+        return jdbcTemplate.query(sql, this::mapMaterial, cursoId);
+    }
+
     public List<Material> getMateriais() {
         String sql = "SELECT * FROM Materiais";
         return jdbcTemplate.query(sql, this::mapMaterial);
     }
+
     public Material getMaterialById(int materialId) {
         String sql = "SELECT * FROM Materiais WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, this::mapMaterial, materialId);
@@ -33,7 +43,6 @@ public class MaterialDao {
         String sql = "UPDATE Materiais SET nome = ?, descricao = ?, caminho_arquivo = ?, curso_id = ? WHERE id = ?";
         jdbcTemplate.update(sql, material.getNome(), material.getDescricao(), material.getCaminhoArquivo(), material.getCursoId(), id);
     }
-
 
     public void deleteMaterial(int materialId) {
         String sql = "DELETE FROM Materiais WHERE id = ?";

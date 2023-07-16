@@ -16,7 +16,7 @@
       margin-top: 20px;
     }
   </style>
-  <title>Listar Materiais</title>
+  <title>Registrar Aula</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -27,58 +27,51 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="/listarcursos"><strong>Listar Cursos</strong></a>
+      <li class="nav-item active">
+        <a class="nav-link" href="/listar-aulas">Listar Aulas</a>
       </li>
-      <li class="nav-item  active">
-        <a class="nav-link" href="/listarmateriais"><strong>Listar Materiais</strong></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/listar-aulas"><strong>Listar Aulas</strong></a>
-      </li>
-      <li class="nav-item" th:if="${tipoUsuario != 'ALUNO'}">
-        <a class="nav-link" href="/registrar-curso"><strong>Registrar Curso</strong></a>
-      </li>
-
-      <li class="nav-item" th:if="${tipoUsuario != 'ALUNO'}">
-        <a class="nav-link" href="/registrar-material"><strong>Registrar Material</strong></a>
-      </li>
-
     </ul>
     <span class="navbar-text">
-  Logado como <strong th:text="${session.username}"></strong>
-</span>
+            Logado como <strong th:text="${session.username}"></strong>
+        </span>
     <a href="/logout" class="btn btn-danger ml-3">Sair</a>
   </div>
 </nav>
 
 <div class="container content-section">
-  <h1>Listar Materiais</h1>
+  <h1>Registrar Aula</h1>
 
-  <table class="table">
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Nome</th>
-      <th>Descrição</th>
-      <th>Ações</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="material : ${materiais}">
-      <td th:text="${material.id}"></td>
-      <td th:text="${material.nome}"></td>
-      <td th:text="${material.descricao}"></td>
-      <td>
-        <div class="btn-group">
-          <a th:href="@{'/editar-material?id=' + ${material.id}}" class="btn btn-primary mr-2">Editar</a>
-          <a th:href="@{'/download?id=' + ${material.id}}" class="btn btn-success mr-2">Baixar</a>
-          <a href="#" th:href="@{/remover-material/{id}(id=${material.id})}" class="btn btn-danger">Remover</a>
-        </div>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+  <form action="/registrar-aula" method="post" th:object="${aula}">
+    <div class="form-group">
+      <label for="curso">Curso</label>
+      <select id="curso" class="form-control" th:field="*{curso.id}">
+        <option th:each="curso : ${cursos}" th:value="${curso.id}" th:text="${curso.nome}"></option>
+      </select>
+      <span class="text-danger" th:if="${#fields.hasErrors('curso.id')}" th:errors="*{curso.id}"></span>
+    </div>
+
+    <div class="form-group">
+      <label for="titulo">Título</label>
+      <input type="text" id="titulo" class="form-control" th:field="*{titulo}">
+      <span class="text-danger" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></span>
+    </div>
+
+    <div class="form-group">
+      <label for="data">Data da Aula</label>
+      <input type="date" id="data" class="form-control" th:field="*{data}">
+      <span class="text-danger" th:if="${#fields.hasErrors('data')}" th:errors="*{data}"></span>
+    </div>
+
+    <div class="form-group">
+      <label for="material">Material</label>
+      <select id="material" class="form-control" th:field="*{material.id}">
+        <option th:each="material : ${materiais}" th:value="${material.id}" th:text="${material.nome}"></option>
+      </select>
+      <span class="text-danger" th:if="${#fields.hasErrors('material.id')}" th:errors="*{material.id}"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Registrar</button>
+  </form>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

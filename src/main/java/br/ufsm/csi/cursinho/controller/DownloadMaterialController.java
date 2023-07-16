@@ -9,12 +9,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Optional;
 
 @Controller
 public class DownloadMaterialController {
@@ -22,26 +24,30 @@ public class DownloadMaterialController {
     @Autowired
     private MaterialDao materialDao;
 
-    @GetMapping("/download")
-    public ResponseEntity<InputStreamResource> downloadMaterial(@RequestParam("id") int materialId) throws IOException {
+    @GetMapping({"/download", "/download-material/{id}"})
+    public ResponseEntity<InputStreamResource> downloadMaterial(@RequestParam(value = "id", required = false) Optional<Integer> queryId,
+                                                                @PathVariable(value = "id", required = false) Optional<Integer> pathId) throws IOException {
+
+        int materialId = queryId.orElse(pathId.orElse(-1));
+
+        if(materialId == -1){
+            return ResponseEntity.notFound().build();
+        }
+
         Material material = materialDao.getMaterialById(materialId);
 
         if (material == null) {
             return ResponseEntity.notFound().build();
         }
 
-        // Obter o caminho absoluto do arquivo do material
         String caminhoArquivo = material.getCaminhoArquivo();
 
-        // Criar o objeto File com o caminho do arquivo
         File arquivoMaterial = new File(caminhoArquivo);
 
-        // Verificar se o arquivo existe
         if (!arquivoMaterial.exists()) {
             return ResponseEntity.notFound().build();
         }
 
-        // Preparar o recurso do arquivo para download
         InputStreamResource resource;
         try {
             resource = new InputStreamResource(new FileInputStream(arquivoMaterial));
@@ -49,11 +55,9 @@ public class DownloadMaterialController {
             return ResponseEntity.notFound().build();
         }
 
-        // Definir o cabeçalho de resposta para o navegador
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + arquivoMaterial.getName());
 
-        // Retornar a resposta com o arquivo para download
         return ResponseEntity.ok()
                 .headers(headers)
                 .contentLength(arquivoMaterial.length())

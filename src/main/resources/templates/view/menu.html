@@ -15,10 +15,13 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Início</a>
+                <a class="nav-link" href="/listarcursos"><strong>Listar Cursos</strong></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/listarmateriais"><strong>Listar Materiais</strong></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/listar-aulas"><strong>Listar Aulas</strong></a>
             </li>
             <li class="nav-item" th:if="${tipoUsuario != 'ALUNO'}">
                 <a class="nav-link" href="/registrar-curso"><strong>Registrar Curso</strong></a>
@@ -52,6 +55,7 @@
             <td>
                 <a th:if="${tipoUsuario != 'ALUNO'}" th:href="@{'/editar-curso?id=' + ${curso.id}}" class="btn btn-primary">Editar</a>
                 <a href="#" th:href="@{/remover-curso/{id}(id=${curso.id})}" class="btn btn-danger">Remover</a>
+                <a th:href="@{'/registrar-aula?cursoId=' + ${curso.id}}" class="btn btn-success">Registrar Aula</a>
             </td>
         </tr>
         </tbody>

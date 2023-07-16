@@ -1,6 +1,7 @@
 package br.ufsm.csi.cursinho.controller;
 
 import br.ufsm.csi.cursinho.DAO.UsuarioDao;
+import br.ufsm.csi.cursinho.model.TipoUsuario;
 import br.ufsm.csi.cursinho.model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,9 +49,12 @@ public class LoginController {
                 redirectAttributes.addFlashAttribute("username", usuario.getNome());
                 redirectAttributes.addFlashAttribute("userId", usuario.getId());
                 redirectAttributes.addFlashAttribute("tipoUsuario", usuario.getTipoUsuario());
-                System.out.println("User ID: " + usuario.getId());
 
-                return "redirect:/listarcursos";
+                if (usuario.getTipoUsuario() == TipoUsuario.ALUNO) {
+                    return "redirect:/listar-aulas";
+                } else {
+                    return "redirect:/listarcursos";
+                }
             } else {
                 return "redirect:/login-error";
             }
