@@ -4,7 +4,7 @@
 Este projeto foi desenvolvido como parte do curso de Programação Orientada a Objetos da Web I, com o objetivo de criar um sistema de gerenciamento de materiais, aulas, cursos e usuários para auxiliar uma escola.
 
 
-
+Eu criei esse projeto assassinado leo
 
 ## Tecnologias Utilizadas
 
